@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <nav>
         {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}">Logout</a>
+        <a href="{% url 'logout' %}">Logout</a>
         {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'signup' %}">Signup</a>
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'signup' %}">Signup</a>
         {% endif %}
     </nav>
     <h1>single books</h1>
@@ -20,12 +22,20 @@
         {% for book in books %}
         <li>{{book.title}}, by {{book.author}}</li>
         <br>
+        {% if book.borrower == null %}
+        <form method="POST">
+            {% csrf_token %} <!-- Django forms will not function without this additional security token-->
+            {{ form.as_p }} <!-- .as_p is optional for formatting purposes -->
+            <input type="submit" value="borrow this book">
+        </form>
+        {% else %}
+        <p>this book cannot be borrowed as it is already on loan</p>
+        {% endif %}
         {% endfor %}
     </ul>
-    {% if book.borrower %}
 
-    <button type="submit" >borrow this book</button>
-    
-    {%endif%}
+
+   
 </body>
+
 </html>

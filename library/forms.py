@@ -9,4 +9,10 @@ class NewBookForm(ModelForm):
     class Meta:
         model = Book
         fields = ['title','author']
+
+class BorrowBookForm(ModelForm):
+    class Meta:
+        fields = ['borrower']
+        model = Book
+        
     
