@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from library.forms import NewBookForm
 from library.models import Book
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -13,3 +14,13 @@ def show(req):
 def showbyid(req,id):
     context = { 'books' : Book.objects.filter(id=id) }
     return render(req, 'library/book.html', context)
+def new_book(req):
+    if req.method == 'POST':
+        form = NewBookForm(req.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('books-show')
+    else:
+        form = NewBookForm()
+    data = {'form': form}
+    return render(req, 'library/new-book.html', data)
