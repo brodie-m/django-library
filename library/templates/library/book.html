@@ -19,19 +19,28 @@
     </nav>
     <h1>single books</h1>
     <ul>
-        {% for book in books %}
-        <li>{{book.title}}, by {{book.author}}</li>
+        
+        <li>{{book_to_save.title}}, by {{book_to_save.author}}</li>
         <br>
-        {% if book.borrower == null %}
+        {% if book_to_save.borrower == null %}
         <form method="POST">
-            {% csrf_token %} <!-- Django forms will not function without this additional security token-->
-            {{ form.as_p }} <!-- .as_p is optional for formatting purposes -->
+            {% csrf_token %} 
+            {{ form.as_p }} 
             <input type="submit" value="borrow this book">
         </form>
         {% else %}
         <p>this book cannot be borrowed as it is already on loan</p>
-        {% endif %}
-        {% endfor %}
+
+        {% ifequal user.username|stringformat:'s' book_to_save.borrower|stringformat:'s' %}
+        
+        <form method="POST">
+            {% csrf_token %} 
+            {{ form.as_p }} 
+            <input type="submit" value="return this book">
+        </form>
+        {% endifequal %}
+        {%endif%}
+        
     </ul>
 
 
