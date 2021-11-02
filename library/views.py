@@ -23,6 +23,7 @@ def showbyid(req,id):
         else:
             book_to_save.borrower = None
             book_to_save.save()
+            return redirect('books-show')
     else:
         form = BorrowBookForm()
     data = {'form': form, 'books' : Book.objects.filter(id=id), 'book_to_save':book_to_save}
