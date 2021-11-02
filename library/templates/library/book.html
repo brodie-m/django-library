@@ -22,5 +22,10 @@
         <br>
         {% endfor %}
     </ul>
+    {% if book.borrower %}
+
+    <button type="submit" >borrow this book</button>
+    
+    {%endif%}
 </body>
 </html>
